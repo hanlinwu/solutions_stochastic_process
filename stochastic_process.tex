@@ -1,0 +1,1072 @@
+% !TEX program = XeLaTeX
+\documentclass[UTF8,ondside]{ctexart}
+\usepackage{ctexcap,geometry,amsmath,fancyhdr,tabularx,xcolor,graphicx,multirow,enumerate,amssymb,amscd,extarrows,mathrsfs,verbatim}
+\geometry{left=2.5cm,right=2.5cm,top=3cm,bottom=3cm}
+\pagestyle{fancy}
+\title{《随机过程引论》补充习题及解答}
+\author{吴瀚霖 hanlinwu@mail.bnu.edu.cn}
+\date{2018年6月}
+\newtheorem{exercise}{习题}[section]
+\newcommand{\h}{\mathscr}
+\newcommand{\kx}{\mathbb}
+\newcommand{\mbf}{\mathbf}
+\newcommand{\sgn}{\text{\rm sgn}}
+\newcommand{\circlenumber}[1]{{\small\textcircled{\tiny{#1}}}}
+\numberwithin{equation}{section}
+\newcommand{\xlim}[1]{\mathop{\lim}\limits_{#1}} %显示角色
+\def\QEDopen{{\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{0.2pt}\fbox{\rule[0pt]{0pt}{1.3ex}\rule[0pt]{1.3ex}{0pt}}}} %定义空心符
+\def\QED{\QEDopen} %
+\def\proof{\noindent{\bf 证明\ }}
+\def\endproof{\hspace*{\fill}~\QED\par\endtrivlist\unskip}
+\newcommand{\HRule}{\rule{\linewidth}{0.3mm}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+	\maketitle
+	\noindent \HRule
+	\section{随机过程}
+	\begin{exercise}[P3]
+		当$I$为可数集时, 过程$(X_t:t\in I)$和$(Y_t:t\in I)$是无区别的当且仅当它们互为修正.
+	\end{exercise}
+	\begin{proof}
+		若$(X_t)$与$(Y_t)$是无区别的, 显然它们互为修正. 
+		
+		另一方面, 若$(X_t)$与$(Y_t)$互为修正, 则对于任意的$t\in I$, 存在$N_t\in\h F$满足$\mbf P(N_t)=0$, 使得对所有的$\omega\in N_t^c$, $X_t(\omega)=Y_t(\omega)$. 令$N:=\cup_{t\in I}N_t$, 因为$I$可数, 故$N\in\h F$, $\mbf P(N)=0$, 而且对于所有的$\omega\in N^c$和$t\in I$, 有$X_t(\omega)=Y_t(\omega)$, 因此$(X_t)$与$(Y_t)$是无区别的.
+	\end{proof}
+	\begin{exercise}[P8]\label{ex:1-2}
+		取值于$(E,\h E)$的两个随机过程$(X_t:t\in I)$和$(Y_t:t\in I)$等价当且仅当$Q_X=Q_Y$.
+	\end{exercise}
+	\begin{proof}
+		$(\Rightarrow)$ $\h C$为全体柱集构成的集合. $\forall \pi_J^{-1}(H)\in \h C$, 其中$J=\{t_1,\cdots,t_n\}\subseteq I, H\in \h E^J, \pi$为投影.
+		\[
+			\begin{aligned}
+				Q_X(\pi_J^{-1}(H))=\mbf P[X\in \pi_J^{-1}(H)]=\mbf P[(X_{t_1},\cdots,X_{t_n})\in H]\\
+				\xlongequal{\text{$X$与$Y$等价}}\mbf P[(Y_{t_1},\cdots,Y_{t_n})\in H]=Q_Y(\pi^{-1}_J(H)).
+			\end{aligned}
+		\]
+		由$\h E^{I}=\sigma(\h C)$以及测度扩张定理知$Q_X=Q_Y$在$\h E^I$上成立.
+
+		$(\Leftarrow)$ 若$Q_X=Q_Y$, $\h D_X$表示$X$的有限维分布族, $\h D_Y$表示$Y$的有限维分布族. 则$\forall \mu_J^X\in \h D_X, J=\{t_1,\cdots,t_n\},\forall A_1,\cdots,A_n\in\h E$, 有
+		\[
+			\begin{aligned}
+				\mu_{(t_1,\cdots,t_n)}^X(A_1\times\cdots\times A_n)
+				&=\mbf P[X_{t_1}\in A_1,\cdots,X_{t_n}\in A_n]
+				=Q_X[\pi_J^{-1}(A_1,\cdots,A_n)]\\
+				&=Q_Y[\pi_J^{-1}(A_1,\cdots,A_n)]
+				=\mu_{(t_1,\cdots,t_n)}^Y(A_1\times\cdots\times A_n).
+			\end{aligned}
+		\]
+		再由测度扩张定理知, $\forall B\in\h E^J, \mu_J^X(B)=\mu_J^Y(B)$. 再由$J$的任意性知, $\h D_X=\h D_Y$, 从而$X$与$Y$等价.
+	\end{proof}
+	\begin{exercise}[P14]
+		给定$(\Omega,\h F,\mbf P)$和它上的流$(\h F_t:t\geq 0)$和$A\subset [0,\infty)\times\Omega$. 证明$(t,\omega)\mapsto 1_A(t,\omega)$循序可测等价于对任何的$t\geq 0$有 $([0,t]\times\Omega)\cap A\in\h B([0,t])\times\h F_t$.
+	\end{exercise}
+	\begin{proof}
+		取定$t$, 记$f:\left\{
+			\begin{aligned}
+				& [0,t]\times\Omega \rightarrow \kx R\\
+				& (s,\omega)\mapsto 1_A(s,\omega).
+			\end{aligned}
+			\right. $ 
+			取$B\in\h B(\kx R)$, 则
+			\[
+				f^{-1}(B)=\left\{
+					\begin{aligned}
+					& \varnothing, & 0\notin B,1\notin B;\\
+					& A^c\cap ([0,t]\times\Omega),&0\in B,1\notin B;\\
+					& A\cap ([0,t]\times\Omega),&0\notin B,1\in B;\\
+					& [0,t]\times\Omega, &0\in B,1\in B.
+					\end{aligned}
+				\right.
+			\]
+			所以$f$可测, 即$1_A(t,\omega)$循序可测. 另一方面, 取$B=\{1\}$, 则$f^{-1}(B)$可测, 即$f^{-1}(B)=A\cap ([0,t]\times\Omega)\in \h B([0,t])\times\h F_t$.
+	\end{proof}
+	\begin{exercise}[P14]
+		关于$(\h F_t:t\in I)$循序可测的过程关于该流是适应的.
+	\end{exercise}
+	\begin{proof}
+		由可测集的截集仍可测知命题成立. 或者由命题1.3.12知, 循序可测的过程是强适应的. 
+	\end{proof}
+	\begin{exercise}[P15]
+		常数值随机变量$T\equiv t$是停时, 且此时有$\h F_T=\h F_t$.
+	\end{exercise}
+	\begin{proof}
+		因为
+		\[
+			\{T\leq s\}=\left\{
+				\begin{aligned}
+					\varnothing, s< t;\\
+					\Omega, s\geq t.
+				\end{aligned}
+			\right.
+		\]
+		所以对于任意的$s\in I$, $\{T\leq s\}\in \h F_s$, $T$是停时. 
+
+		若$A\in\h F_T$, 则对于任意的$s\in I$, 有$A\cap\{T\leq s\}\in\h F_s$. 取$s=t$, 则有$A\cap \Omega=A\in \h F_t$. 另一方面, 若$A\in \h F_t$, 则
+		\[
+			A\cap\{T\leq s\}=\left\{
+				\begin{aligned}
+					\varnothing, s<t;\\
+					A, s\geq t.
+				\end{aligned}
+			\right.
+		\]
+		于是对于任意的$s\in I$, $A\cap\{T\leq s\}\in\h F_s$, 从而 $A\in\h F_T$. 于是$\h F_T=\h F_t$.
+	\end{proof}
+	\begin{exercise}[P21]
+		对于$A\in \h G^\mu$ 取 $B\in \h G$ 使 $A\Delta B\in \h N$, 并令 $\nu(A)=\mu(B)$. 该定义无歧义且给出 $(E,\h G^\mu)$ 上的一个有限测度 $\nu$, 它在 $\h G$ 上与 $\mu$ 重合. 
+	\end{exercise}
+	\begin{proof}
+		\textbf{(1) 无歧义.}
+		对于任意的$A\in\h G^\mu$, 若有$B_1,B_2\in\h G$, 使得 $A\Delta B_1=N_1\in\h N, A\Delta B_2=N_2\in \h N$. 则$B_1\Delta B_2\subset N_1\cup N_2\in \h N$, 从而$\mu(B_1)=\mu(B_2)=\nu(A)$.
+
+		\textbf{(2) $\nu$是有限测度.} 设$\{A_i\}_{i=1}^\infty\in \h G^\mu$互不相交. $\forall i\in \kx N_+, \exists B_i\in \h G$, 使得 $A_i\Delta B_i\in \h N$. 因为 $\{A_i\}_{i=1}^\infty$互不相交, 所以当$i\neq j$时, $B_i\cap B_j\in \h N$. 令 $C_1=B_1,C_i=B_i\backslash(B_{i-1}\cup\cdots\cup B_1)$. 于是$\{C_i\}_{i=1}^\infty\subset\h G$互不相交且$B_i\Delta C_i\in\h N$, 从而$A_i\Delta C_i\in\h N$. 
+		\[
+			\nu\left(\sum_{i=1}^\infty A_i\right)=\mu\left(\sum_{i=1}^\infty C_i\right)=\sum_{i=1}^\infty\mu(C_i)=\sum_{i=1}^\infty\nu(A_i).
+		\]
+		从而$\nu$满足$\sigma$-可加性. 因为$\mu$是有限测度, 所以$\nu$是有限测度.
+
+		\textbf{(3) $\nu$在$\h G$上与$\mu$重合.} $\forall B\in \h G, B\Delta B=\varnothing\in\h N,\nu(B)=\mu(B)$.
+	\end{proof}
+	\newpage
+	\section{鞅论基础}
+	\begin{exercise}[P29]
+		命题2.1.5中, $(X_t)$ 关于自然流 $(\h F_t)$ 是否是下鞅? 
+	\end{exercise}
+	\begin{proof}
+		不一定是. 有如下反例: $(\Omega,\h F,\mbf P)$为概率空间, 其中$\h F=\{\varnothing,A,A^c,\Omega\}$, 且$\mbf P(A)=0$. 对于任意的$n\in \kx N_+$, 令$X_n(t)(\omega) = 0,\forall t\in\kx R_+,\omega\in\Omega$. 则$\{X_n(t):t\in\kx R_+\}$是关于$(\h F_t)$的下鞅(也是鞅). 令$X_t=1_A,A\in\h F,A\neq\varnothing$. 那么对于任意的$t\in\kx R_+$,
+		\[
+			\lim_{n\rightarrow\infty}\int_\Omega |X_n(t)-X_t|d\kx P=\lim_{n\rightarrow\infty} 1_A d\kx P = 0.
+		\]
+		于是$X_n(t)\xrightarrow{L^1}X_t$. 但是$X_t$关于$\h F_t$不可测, 即$(X_t)$不是关于$(\h F_t)$适应的过程, 当然更不是关于$(\h F_t)$的下鞅. 
+	\end{proof}
+	\begin{exercise}[P33]
+		设 $(X_n:n\geq 0)$ 是鞅, $\tau$ 是停时. (1) $\mbf P(\tau<\infty)=1$;   (2) $\mbf P|X_\tau|<\infty$; (3) $\lim_{n\rightarrow\infty}\mbf P(X_n;\tau > n)$; (4) $\mbf P(\sup_{k\geq 0}|X_{\tau\land k}|)<\infty$; 若(1)和(4)满足, 则(2)和(3)成立. 
+	\end{exercise}
+	\begin{proof}
+		(1)+(4)$\Rightarrow$(2): 
+		\[\begin{aligned}
+			\mbf P|X_\tau|&=\sum_{n=1}^\infty\mbf P(|X_\tau|; {\tau=n})=\sum_{n=1}^\infty\mbf P(|X_{\tau\land n}|; {\tau=n})\\
+			&\leq \sum_{n=1}^\infty\mbf P(\sup_{k\geq 0}|X_{\tau\land k}|; {\tau=n})=\mbf P(\sup_{k\geq 0}|X_{\tau\land k}|)<\infty.
+		\end{aligned}\]
+		(1)+(4)$\Rightarrow$(3): 
+		\[
+			\lim_{n\rightarrow\infty}\mbf P(X_n;\tau>n)\leq\lim_{n\rightarrow\infty}\mbf P(\sup_{k\geq 0}|X_{\tau\land k}|;\tau>n)=0.
+		\]
+		上式的第二个等号是由积分的绝对连续性.
+	\end{proof}
+	\begin{exercise}[P41, 推论2.2.7]
+		设有给定的随机变量列$(Y_n)_{n\leq 0}$和$\sigma$代数流$(\h F_n)_{n\geq 0}$. 如果几乎必然地$\lim_{n\rightarrow -\infty}Y_n=Y$且有可积随机变量$Z$使得$|Y_n|\leq Z$, 那么$X_n:=\mbf P(Y_n|\h F_n)$几乎必然且$L^1$收敛于$X_{-\infty}:=\mbf P(Y|\h F_{-\infty})$, 其中$\h F_{-\infty}=\cap_{n}\h F_n$.
+	\end{exercise}
+	\begin{proof}
+		令$B_n:=\mbf P(Y|\h F_n)$, 则$B_n$是杜布鞅, 从而一致可积. 于是$\inf_{n\leq 0}\mbf P(B_n)>-\infty$. 由定理2.2.6知, $B_n$几乎必然且$L^1$收敛到$B_{-\infty}:=\mbf P(B_n|\h F_\infty)=\mbf P[\mbf P(Y|\h F_n)|\h F_{-\infty}]=\mbf P(Y|\h F_{-\infty})=X_{-\infty}$.
+		
+		记$W_m:=\sup_{k\geq m}|Y_k-Y|$, 则$|W_m|\leq 2Z, W_m\xrightarrow{\text{a.s.}}0.$
+		\[\begin{aligned}
+			\limsup_{n\rightarrow -\infty}|X_n-X_{-\infty}|&=\limsup_{n\rightarrow -\infty}\left|\mbf P[(Y_n-Y)\mid\h F_n]\right|\\
+			&\leq \limsup_{n\rightarrow -\infty}\mbf P[|Y_n-Y|\mid\h F_n]\\
+			&\leq \limsup_{n\rightarrow -\infty}\mbf P(W_m\mid\h F_n)=\mbf P(W_m\mid\h F_{-\infty}).
+		\end{aligned}\]
+		令$m\rightarrow 0$, 则$X_n\xrightarrow{\text{a.s.}}X_{-\infty}$. 又因为
+		\[
+			|X_n|\leq \mbf P(|Y_n|\mid\h F_n)\leq \mbf P(Z\mid\h F_n).	
+		\]
+		所以$X_n$一致可积, 从而$X_n\xrightarrow{L^1}X_{-\infty}$.
+	\end{proof}
+	\begin{exercise}[P45]
+		由两个不同可数稠集所定义的右极限过程是不可区分的.
+	\end{exercise}
+	\begin{proof}
+		设 $D_1,D_2$ 是 $[0,\infty)$ 的两个不同稠子集. 由定理2.3.1知, 对于任意的$t$和几乎必然的$\omega\in\Omega$, 有
+		\[
+			X_{t+}^{D_1}(\omega)=\lim_{s\in D_1,s\downdownarrows t}X_s(\omega),
+			X_{t+}^{D_2}(\omega)=\lim_{s\in D_2,s\downdownarrows t}X_s(\omega).
+		\]
+		令$D_3=D_1\cup D_2$, 则$D_3$也是可数稠子集, 那么
+		\[
+			X_{t+}^{D_3}(\omega)=\lim_{s\in D_3,s\downdownarrows t}X_s(\omega)
+		\]
+		存在, 故子列的极限相等. 于是$X_{t+}^{D_1}=X_{t+}^{D_2},\forall t\geq 0,\text{a.s. }\omega\in\Omega$. 即$X_{t+}^{D_1}$与$X_{t+}^{D_2}$互为修正. 再由右连续性知
+		\[
+			\mbf P(X_{t+}^{D_1}=X_{t+}^{D_2},\forall t\geq 0)=1-\cup_{t\in \kx Q^{+}}\mbf P(X_{t+}^{D_1}\neq X_{t+}^{D_2})=1.
+		\]
+		故$X_{t+}^{D_1}$与$X_{t+}^{D_2}$不可区分.
+	\end{proof}
+	\begin{exercise}[P46,推论2.3.5]
+		关于$(\h F_t)$适应的右连续可积过程$X$是鞅当且仅当对任何有界停时$\sigma\leq\tau$有$\mbf P(X_\sigma)=\mbf P(X_\tau)$, 或等价地对任何有界停时$\tau$有$\mbf P(X_\tau)=\mbf P(X_0)$.
+	\end{exercise}
+	\begin{proof}
+		$(\Rightarrow)$ 将定理2.3.4证明过程中的不等号改成等号即可.
+
+		$(\Leftarrow)$ 对于任意的$s\leq t$, 任取$A\in \h F_s$, 定义停时
+		\[
+			\sigma(\omega)=\left\{
+				\begin{aligned}
+				s,\ & \omega \in A\\
+				0,\ & \omega \in A^c,
+			\end{aligned}
+			\right.\ \ \ \ 
+			\tau(\omega)=\left\{\begin{aligned}
+				t,\ & \omega\in A\\
+				0,\ & \omega\in A^c.
+			\end{aligned}\right.
+		\]
+		则
+		\[
+			\mbf P(X_{\sigma})=\mbf P(X_\sigma;A)+\mbf P(X_\sigma;A^c)=\mbf P(X_s;A)+\mbf P(X_0;A^c).
+		\]
+		同理
+		\[
+			\mbf P(X_\tau)=\mbf P(X_t;A)+\mbf P(X_0;A^c).
+			\]
+		由$\mbf P(X_\sigma)=\mbf P(X_\tau)$知$\mbf P(X_s;A)=\mbf P(X_t;A),\forall A\in\h F_s$. 即
+		\[
+			\mbf P(X_t\mid\h F_s)=X_s.
+		\]
+		从而$(X_t)$是鞅.
+	\end{proof}
+	\begin{exercise}[P47, 定理2.3.8]
+		设$X=(X_t:t\geq 0)$是右连续下鞅. 则有下面性质成立:\newline
+		(1) 对任何$\lambda > 0$及$t\geq 0$有
+		\[
+			\lambda\mbf P\left\{\sup_{0\leq s\leq t}|X_s|\geq \lambda\right\}\leq 2\mbf P(X_t^+)-\mbf P(X_0);
+		\]
+		(2) 若$X$是非负的, 则对任何$p>1$及$t\geq 0$有
+		\[
+			\mbf P\left(\sup_{0\leq s\leq t}X_s^p\right)\leq \left( \frac{p}{p-1} \right)^p\mbf P(X_t^p);
+		\]
+		(3) 若$X$是鞅, 则对任何$t\geq 0$有
+		\[
+			\mbf P\left(\sup_{0\leq s\leq t}X_s^2\right)\leq 4\mbf P(X_t^2).
+		\]
+	\end{exercise}
+	\begin{proof}
+		(1) 令$F:=[0,t]\cap (\kx Q\cup \{0,t\})$, 取$(F_n)_{n\geq 0}$为一列递增的有限集, 每个$F_n$都包含$\{0,t\}$且$\cup_{n=1}^\infty F_n = F$. 令
+		\[
+			A_n:=\{\omega : \max_{s\in F_n}|X_s(\omega)|\geq \lambda\}.
+		\]
+		由定理2.1.14知,
+		\begin{equation}
+			\lambda \mbf P(A_n)\leq 2\mbf P(X_t^+)-\mbf P(X_0).\label{eq:2-6-1}
+		\end{equation}
+		显然 $A_n\uparrow A:=\{\omega : \sup_{s\in F}|X_s(\omega)|\geq \lambda\}$. 对(\ref{eq:2-6-1})式两侧关于$n$取极限, 再由测度的下连续性, 有
+		\[
+			\lambda\mbf P\left(\lim_{n\rightarrow\infty}A_n\right)=\lambda \lim_{n\rightarrow\infty}\mbf P(A_n)\leq 2\mbf P(X_t^+)-\mbf P(X_0).
+		\]
+		因为$F$在$[0,t]$中稠密, 故对任意的$s\in [0,t]$, 存在$F$中的一列$\{s_n\}_{n\geq 0}$ 满足 $s_n\downdownarrows s$. 由$(X_t)$轨道右连续性知, $X_s(\omega)=\lim_{s_n\downdownarrows s}X_{s_n}(\omega)$. 于是
+		\[
+			\lambda \mbf P\left(\sup_{s\in [0,t]}|X_s|\geq \lambda\right)\leq 2\mbf P(X_t^+)-\mbf P(X_0).
+		\]
+
+		(2) $F_n,F$同(1)中定义. 由定理2.1.14知
+		\[
+			\mbf P\left(\max_{s\in F_n}X_s^p\right)\leq \left(\frac{p}{p-1}\right)^p\mbf P(X_t^p).
+		\]
+		因 $\max_{s\in F_n} X_s^p$非负且关于$n$单调上升. 由单调收敛定理, 有
+		\[
+			\mbf P\left(\sup_{s\in F}X_s^p\right)
+			=\mbf P\left(\lim_{n\rightarrow\infty}\max_{s\in F_n} X_s^p\right)
+			=\lim_{n\rightarrow\infty}\mbf P\left(\max_{s\in F_n}X_s^p\right)
+			\leq \left(\frac{p}{p-1}\right)^p\mbf P(X_t)^p.
+		\]
+		令$A:=\sup_{s\in [0,t]}X_s^p(\omega), B:=\sup_{s\in F}X_s^p(\omega)$. 固定$\omega\in\Omega$, 下面说明$A=B$. 事实上, 显然有$A\geq B$. 只需说明另一方面. 由上确界定义, $\forall \varepsilon > 0, \exists s_0 \in [0,t]$, 使得$X_{s_0}^p(\omega)> A-\varepsilon$. 由$F$的稠密性及$(X_t)$的右连续性知, $\exists s_0'\in F$, 满足$X_{s_0}^p(\omega)-X_{s_0'}^p(\omega)<\varepsilon$. 于是$X_{s_0'}^p(\omega)>A-2\varepsilon$. 由$\varepsilon$的任意性知$X_{s_0'}^p\geq A$, 于是$B\geq A$. 从而$A=B$, 命题得证. 
+
+		(3) 因为$X$是鞅, 由命题2.1.1知$|X_t|$是非负下鞅. 对$|X_t|$应用(2)的结论, 取$p=2$即可.
+	\end{proof}
+	\begin{exercise}[P48, 定理2.3.9]
+		假设流$(\h F_t:t\geq 0)$满足通常条件, 而$(X_t:t\geq 0)$是右连续下鞅且$K:=\sup_{t\geq 0}\mbf P|X_t|<\infty$. 则$X_t\xrightarrow{\text{a.s.}}X\ (t\rightarrow\infty)$, 其中$X$是一个可积随机变量. 另外若$(X_t)$是一致可积下鞅, 则$X_t\xrightarrow{L^1}X$; 若$(X_t)$是一致可积鞅, 则还有$X_t=\mbf P(X|\h F_t)$.
+	\end{exercise}
+	\begin{proof}
+		(1) 令$X^*:=\limsup_{t\rightarrow\infty}X_t,X_*:=\liminf_{t\rightarrow\infty}X_t$. 则
+		\[
+			\{X^*>X_*\}=\cup_{a<b\in\kx Q}\{X_*<a<b<X^*\}.
+		\]
+		令 $X_n^{(m)}:=X_{n/2^m},n,m\in\kx N$. 对任意的$m$, $\{X_{n/2^m}\}$是关于$(\h F_{n/2^m}:n\in\kx N)$的离散时间下鞅, 且$\sup_{n}\mbf P |X_n^{(m)} | \leq K<\infty$. 由离散情形知: 对任意的$N\in\kx N$, 
+		\[
+			\mbf P\left\{U_N^{X^{(m)}}[a,b]\right\}\leq \frac{1}{b-a}\mbf P|X_N^{(m)}-a|\leq \frac{K+|a|}{b-a}.
+		\]
+		由单调收敛定理, $\mbf P\left\{\lim_{N\rightarrow\infty}U_N^{X^{(m)}}[a,b]\right\}<\infty$. 故几乎必然有 $\lim_{N\rightarrow\infty}U_N^{X^{(m)}}[a,b]<\infty$. 令$m\rightarrow\infty$, 由稠密性及右连续性知
+		\[
+			\lim_{t\rightarrow\infty}U_t^X[a,b]<\infty,\ \ \text{a.s.}
+		\]
+		又因$\{X_*<a<b<X^*\}\subset\{\lim_{t\rightarrow}U_t^X[a,b]=0\}$. 所以$\mbf P\{X_*<a<b<X^*\}=0$, 即$X_*=X^*,\ \ \text{a.s.}$ 从而$\lim_{t\rightarrow\infty}X_t$几乎必然存在. 令$X:=\lim_{t\rightarrow\infty}X_t$, $X$的可积性由Fatou引理:
+		\[
+			\mbf P(|X|)=\mbf P\left(\liminf_{t\rightarrow\infty}|X_t|\right)\leq \liminf_{t\rightarrow\infty}\mbf P|X_t|\leq K<\infty.
+		\]
+
+		(2) 若$(X_t)$是一致可积下鞅, 由上述证明知 $X_t\xrightarrow{\text{a.s.}}X\ (t\rightarrow\infty)$. 再由控制收敛定理知 $X_t\xrightarrow{L^1}X\ (t\rightarrow\infty)$.
+
+		(3) 若$(X_t)$是一致可积鞅, 则有$X_t\xrightarrow{L^1}X\ (t\rightarrow\infty)$. 对$\forall s\leq t$及$A\in \h F_s$,
+		\[
+			\mbf P(X;A)=\lim_{t\rightarrow\infty}\mbf P(X_t;A)=\lim_{t\rightarrow\infty}\mbf P[\mbf P(X_t|\h F_s);A]=\lim_{t\rightarrow\infty}\mbf P(X_s;A)=\mbf P(X_s;A).
+		\]
+		于是$X_s=\mbf P(X|\h F_s)$.
+	\end{proof}
+	\begin{exercise}[P49]
+		可选过程是循序可测的.
+	\end{exercise}
+	\begin{proof}
+		利用函数形式的单调类定理, 令$L:=\{X:X\text{为循序可测的随机过程}\}$, 下面验证$L$为$\h L$系.
+
+		\circlenumber{1} $1\in L$ 显然成立.
+
+		\circlenumber{2} 线性组合封闭. 对于任意的$X,Y\in L$, 即$X,Y$循序可测. 由循序可测的定义知, 对于任意的$t\in I$, 映射$(s,\omega)\mapsto X_s(\omega)$与$(s,\omega)\mapsto Y_s(\omega)$限制在$([0,t]\cap I)\times\Omega$上关于$\h B([0,t]\cap I)\times\h F_t$和$\h E$是可测的. 因为可测映射的线性组合仍可测, 所以$X,Y$的线性组合仍循序可测. 
+
+		\circlenumber{3} 若$X^{(n)}\in L,0\leq X_n\uparrow X$, 则$X\in L$. 事实上,对于任意的 $n\in\kx N_+$, $X^{(n)}$循序可测, 即对于任意的$t\in I$, 映射$(s,\omega)\mapsto X^{(n)}(\omega)$限制在$([0,t]\cap I)\times\Omega$上关于$\h B([0,t]\cap I)\times\h F_t$和$\h E$是可测的. 由可测映射的极限仍可测, 故$(s,\omega)\mapsto X(\omega)$限制在$([0,t]\cap I)\times\Omega$上关于$\h B([0,t]\cap I)\times\h F_t$和$\h E$是可测的. 于是$X$循序可测.
+
+		令$\h A:=\{X:X\text{为右连续的适应过程}\}$. 显然$\h A$对于乘积运算封闭. 由定理1.3.1(右连续且适应$\Rightarrow$循序可测)知, $\h A\subset L$. 根据单调类定理, $\sigma(\h A)\subset L$.
+
+		令$\h O$为可选过程(左极右连的适应过程)生成的$I\times\Omega$上的最小的$\sigma$代数, 显然$\h O\subset\sigma(\h A)\subset L$. 于是可选过程是循序可测的.
+	\end{proof}
+	\newpage
+	\section{马尔可夫过程}
+	\begin{exercise}[P55]
+		$K$是可测空间$(E,\h E)$到$(F,\h F)$的有界核, $L$是可测空间$(F,\h F)$到$(B,\h B)$ 的有界核. $\mu$ 是$(E,\h E)$上的有限测度. 证明: 
+		\[
+			K(Lf)=(KL)f,\ \ (\mu K)L=\mu(KL).
+		\]
+	\end{exercise}
+	\begin{proof}
+		(1) 对于任意的$x\in E$, 
+		\[\begin{aligned}
+			K(Lf)(x)&=\int_E K(x,dy)Lf(y)
+			=\int_E K(x,dy)\int_F L(y,dz)f(z)\\
+			&=\int_E\int_F K(x,dy)L(y,dz)f(z)
+			=\int_E KL(x,dz)f(z)
+			=(KL)f(x).
+		\end{aligned}
+		\]
+		所以$K(Lf)=(KL)f$.
+
+		(2) 对于任意的$A\in \h B$, 由Fubini定理, 
+		\[\begin{aligned}
+			(\mu K)L(A)&=\int_F\int_E\mu(dx)K(x,dy)L(y,A)\\
+			&=\int_E\mu(dx)\int_F K(x,dy)L(y,A)=\int_E\mu(dx)KL(x,A)=\mu(KL)(A).
+		\end{aligned}
+		\]
+		所以$(\mu K)L=\mu(KL)$.
+	\end{proof}
+	\begin{exercise}[P55]
+		任何从$(E,\h E)$到 $(F,\h F)$ 的有界核都可以自然地扩张为从 $(E,\h E^\bullet)$到 $(F,\h F^\bullet)$ 的有界核.
+	\end{exercise}
+	\begin{proof}
+		\circlenumber{1} 对于任意的$x\in E$, 将$K(x,\cdot)$扩张为$\h F^\bullet$上的测度. 对于任意的有限测度$\mu$, 
+		\[
+			\h F^{\mu}=\sigma(\h F\cup \h N)=\{A\subset F:\exists B\in \h F \text{ 使得 } A\Delta B\in \h N\}.
+		\]
+		其中$\h N$为所有$\mu$-零集构成的集合. 根据习题1.6知, 可将$K(x,\cdot)$唯一地扩张为$\h F^\mu$上的测度. 又因为$\h F^\bullet\subset \h F^\mu$, 所以$K(x,\cdot)$在$\bar{\h F}$上有唯一扩张.
+
+		\circlenumber{2} 往证对于任意的$B\in\h F^\bullet,x\mapsto K(x,B)$ 为 $\h E^\bullet$可测函数. 对于$(E,\h E)$上任意的有限测度$\mu$, $\mu K$为$\h F$上的有限测度, 故$B\in \h F^{\mu K}$. 于是存在$B_1,B_2\in \h F$, 使得$B_1\subset B\subset B_2$且$\mu K(B_1)=\mu K(B_2)$. $\omega\mapsto K(\omega,B_i),i=1,2$关于$\h E$可测, 且
+		\begin{equation}\label{eq:3-2-1}
+			\mu K(B_1)=\int_E K(\omega,B_1)\mu(d\omega)=\int_E K(\omega,B_2)\mu(d\omega)=\mu K(B_2).
+		\end{equation}
+		对于任意的$\omega\in E$, $K(\omega,B_1)\leq K(\omega,B)\leq K(\omega,B_2)$. 结合(\ref{eq:3-2-1})有, $\mu\{K(\omega,B_1)\neq K(\omega, B_2)\}=0$. 再由推论1.4.3知$x\mapsto K(x,B)$关于$\h E^\mu$可测. 由$\mu$的任意性知$x\mapsto K(x,B)$关于$\h E^\bullet$可测.
+	\end{proof}
+	\begin{exercise}[P57, 例3.2.3]
+		假定$(P_t)_{t\geq 0}$为$(E,\h E)$上的马氏转移半群. 给定常数$b\geq 0$, 对于$t\geq 0$和$x\in E$令$P_t^b(x,dy)=e^{-bt}P_t(x,dy)$. 则$(P_t^b)_{t\geq 0}$也是$(E,\h E)$上的转移半群. 显然$(P_t^b)_{t\geq 0}$为保守的转移半群的充要条件是$b=0$.
+	\end{exercise}
+	\begin{proof}
+		对于任意的$f\in b\h E$,
+		\[
+			P_0^b f(x)=\int_E P_0(x,dy)f(y)=P_0 f(x)=f(x).
+		\]
+
+		满足C-K方程: 对于任意的$x\in E,B\in \h E$, 
+		\[\begin{aligned}
+			P_{s+t}^b(x,B)&=e^{-(s+t)}P_{s+t}(x,B)\\
+			&=e^{-(s+t)}\int_E P_s(x,dy)P_t(y,B)\\
+			&=\int_E e^{-s}P_s(x,dy)e^{-t}P_t(y,B)\\
+			&=\int_E P_s^b(x,dy)P_t^b(y,B).	
+		\end{aligned}
+		\]
+
+		最后$(P_t^b)$为保守的转移半群当且仅当$P_t^b(x,E)=e^{-bt}P_t(x,E)=1$, 当且仅当$b=0$. 
+	\end{proof}
+	\begin{exercise}[P59,命题3.2.5]
+		以$(E,\h E)$为状态空间的过程$(X_t:t\in I)$具有以$(P_t:t\in I)$为转移半群的$\h E$马氏性当且仅当对任意的$\{s_1<\cdots<s_n=s<t\}\subset I$和$B\in \h E$有 
+		\[
+			\mbf P(X_t\in B|X_{s_1},\cdots,X_{s_n})=P_{t-s}(X_s,B).
+		\]
+	\end{exercise}
+		\begin{proof}
+			$(\Rightarrow)$ 若$X$具有以$P_t$为转移半群的马氏性, 则$\mbf P(X_t\in B|\h F_s)=P_{t-s}(X_s,B)$. 两边对$(X_{s_1},\cdots,X_{s_n})$取条件期望, 即得
+			\[
+				\mbf P(X_t\in B|X_{s_1},\cdots,X_{s_n})=P_{t-s}(X_s,B).
+			\]
+
+			$(\Leftarrow)$ 若$\mbf P(X_t\in B|X_{s_1},\cdots,X_{s_n})=P_{t-s}(X_s,B)$ 成立, 对任意的$A\in \h E^n$, 有
+			\[
+				\mbf P[1_B(X_t)1_A(X_{s_1},\cdots,X_{s_n})]=
+				\mbf P[P_{t-s}(X_s,B)1_A(X_{s_1},\cdots,X_{s_n})].
+			\]
+			固定$s\in I$, 令$\h C_s:=\{(X_{s_1},\cdots,X_{s_n})^{-1}(A):A\in \h E^n, s_1<\cdots<s_n\in I\cap [0,s]\}$. 则$\h C_s$是$\pi$系且$\sigma(\h C_s)=\h F_s$. 令$\Lambda:=\{G\in\h F_s:\text{满足\ } \mbf P[1_B(X_t)1_G]=\mbf P[P_{t-s}(X_s,B)1_G]\}$. 容易验证$\Lambda$满足\circlenumber{1} 对于真差封闭, \circlenumber{2} 对于单调上升的极限封闭, \circlenumber{3} $E\in \Lambda$. 故$\Lambda$为$\lambda$系, 且$\h C_s\subset \Lambda$. 由集合形式的单调类定理知$\h F_s\subset \Lambda$. 从而
+			\[
+				\mbf P(X_t\in B|\h F_s)=P_{t-s}(X_s,B),
+			\]
+			即$(X_t:t\in I)$具有以$(P_t:t\in I)$为转移半群的$\h E$马氏性. 
+		\end{proof}
+	\begin{exercise}[P59]
+		证明 $\h D_\mu$ 是相容的有限维分布族.
+	\end{exercise}
+	\begin{proof}
+		(1) 横向相容: 对于任意的$J=\{t_1,t_2,\cdots,t_n\}\in \h F(I)$及$(1,2,\cdots,n)$的置换$(\sigma(1),\sigma(2),\cdots,\sigma(n))$. 记$\sigma(J)=(t_{\sigma(1)},t_{\sigma(2)},\cdots,t_{\sigma(n)})$. 因为$P_J$是利用置换定义的, 所以
+		\[\begin{aligned}
+			\mu P_{\sigma(J)}(A_{\sigma(1)}\times\cdots\times A_{\sigma(n)})&=\int_E \mu(dx)P_{\sigma(J)}(x,A_{\sigma(1)}\times\cdots\times A_{\sigma(n)})\\
+			&=\int_E \mu(dx)P_J(x,A_1\times\cdots\times A_n)\\
+			&=\mu P_J(A_1\times\cdots\times A_n)\\
+			&=\mu P_J\circ \Sigma^{-1}(A_{\sigma(1)}\times\cdots\times A_{\sigma(n)}),
+		\end{aligned}
+		\]
+		其中, $\Sigma$表示映射$(x_1,x_2,\cdots,x_n)\mapsto (x_{\sigma(1)},x_{\sigma(2)},\cdots,x_{\sigma(n)})$. 由单调类定理易知
+		\[
+			\mu P_{\sigma(J)}=\mu P_J\circ \Sigma^{-1}.
+		\]
+
+		(2) 纵向相容: 对于任意的$J=(t_1,\cdots,t_n)\in\h F(I)$及$B_1,\cdots,B_n\in\h E$. 因为$P_J$是通过置换定义的, 故不妨假设$t_1<t_2<\cdots <t_n$. 若有某个$1\leq k\leq n$, 使得$B_k=E$, 则对于任意的$x\in E$, 有
+		\[
+			\begin{aligned}
+				&P_J(x,B_1\times\cdots\times B_n)\\
+				=&\int_{B_1\times\cdots\times B_n}P_{t_1}(x,dx_1)P_{t_2-t_1}(x_1,dx_2)\cdots P_{t_n-t_{n-1}}(x_{n-1},dx_n)\\
+				=&\int_{B_1} P_{t_1}(x_1,dx_1)\cdots\int_E P_{t_k-t_{k-1}}(x_{k-1},dx_k)\int_{B_{k+1}} P_{t_{k+1}-t_k}(x_k,dx_{k+1})\cdots\int_{B_n}P_{t_n-t_{n-1}}(x_{n-1},dx_n)\\
+				=&\int_{B_1} P_{t_1}(x_1,dx_1)\cdots\int_{B_{k+1}} P_{t_{k+1}-t_k}(x_{k-1},dx_{k+1})\cdots\int_{B_n}P_{t_n-t_{n-1}}(x_{n-1},dx_n)\\
+				=&P_{J_k}(x,B_1\times\cdots\times B_{k-1}\times B_{k+1}\times\cdots\times B_n).
+			\end{aligned}
+		\]
+		其中$J_k:=\{t_1,\cdots,t_{k-1},t_{k+1},\cdots,t_n\}\in\h F(I)$. 于是$\mu P_J=\mu P_{J_k}$, 即满足纵向相容性.
+	\end{proof}
+	\begin{exercise}[P63, 定理3.3.4]
+		如果$(X_t:t\in I)$相对于流$(\h G_t)$具有以$(P_t)$为转移半群的$\h E$强马氏性, 那么对任意的$t\in I,f\in b\h E$和有限$(\h G_t)$停时$T$有
+		\[
+			\mbf P[f(X_{T+t})|\h G_T]=\mbf P[f(X_{T+t})|X_T].
+		\]
+	\end{exercise}
+	\begin{proof}
+		由$X_t$的$\h E$强马氏性知, $\forall t\in I$和有限$(\h G_t)$停时$T$, 有
+		\begin{equation}\label{eq:3-5-1}
+			\mbf P[f(X_{T+t})|\h G_T]=P_t f(X_T).
+		\end{equation}
+		因为$P_t f(X_T)$关于$\sigma(X_T)$可测, 对上式两边同时取关于$X_T$的条件期望, 得
+		\begin{equation}\label{eq:3-5-2}
+			\mbf P[f(X_{T+t})|X_T]=P_t f(X_T).
+		\end{equation}
+		比较(\ref{eq:3-5-1})与(\ref{eq:3-5-2})知结论成立.
+	\end{proof}
+	\begin{exercise}[P63, 定理3.3.5]
+		如果$(X_t:t\in I)$相对于流$(\h G_t)$具有以$(P_t)$为转移半群的$\h E$强马氏性, 那么对于任意的有限$(\h G_t)$停时$T$和$F\in b\h F^{T}$有
+		\[
+			\mbf P(F|\h G_T)=\mbf P(F|X_T).
+		\]
+	\end{exercise}
+	\begin{proof}
+		令$\h C$为所有形如$f_1(X_{T+t_1})\cdots f_n(X_{T+t_n})$的可测函数构成的集合, 其中$t_1\leq\cdots\leq t_n\in I$且$f_1,\cdots,f_n\in b\h E$. 显然$\h C$对与乘积运算封闭且$\sigma(\h C)=\h F^T$. 令$L:=\{F\in b\h F_T:\mbf P(F|\h G_T)=\mbf P(F|X_T)\}$, 则$L$是线性空间且包含所有的常值函数, 对非负有界上升的极限封闭. 由单调类定理, 只需证明$\h C\subset L$, 即得$b\h F^T\subset L$.
+
+		用数学归纳法. 当$n=1$时, 由定理3.2.9知结论成立. 假设对于某个$n\geq 1$成立, 那么对于$\forall t_{n+1}\geq t_n$和$f_{n+1}\in b\h E$, 存在$g\in b\h E$, 使得
+		\[
+			\mbf P[f_{n+1}(X_{T+t_{n+1}})|\h G_{T+t_n}]=\mbf P[f_{n+1}(X_{T+t_{n+1}}|X_{T+t_n})]=g(X_{T+t_n}).
+		\]
+		故
+		\[
+			\begin{aligned}
+				&\mbf P[f_1(X_{T+t_1})\cdots f_{n+1}(X_{T+t_{n+1}})|\h G_T]\\
+				=&\mbf P\{\mbf P[f_1(X_{T+t_1})\cdots f_{n+1}(X_{T+t_{n+1}})|\h G_{T+t_n}]|\h G_T\}\\
+				=&\mbf P\{f_1(X_{T+t_1})\cdots f_n(X_{T+t_{n}})\mbf P[f_{n+1}(X_{T+t_{n+1}})|\h G_{T+t_n}]|\h G_T\}\\
+				=&\mbf P\{f_1(X_{T+t_1})\cdots f_n(X_{T+t_{n}})g(X_{T+t_n})|\h G_T\}\\
+				=&\mbf P\{f_1(X_{T+t_1})\cdots f_n(X_{T+t_{n}})g(X_{T+t_n})|X_T\}\\
+				=&\mbf P\{f_1(X_{T+t_1})\cdots f_n(X_{T+t_{n}})\mbf P[f_{n+1}(X_{T+t_{n+1}})|\h G_{T+t_n}]|X_T\}\\
+				=&\mbf P\{\mbf P[f_1(X_{T+t_1})\cdots f_{n+1}(X_{T+t_{n+1}})|\h G_{T+t_n}]|X_T\}\\
+				=&\mbf P[f_1(X_{T+t_1})\cdots f_{n+1}(X_{T+t_{n+1}})|X_T].
+			\end{aligned}
+		\]
+		即对于$n+1$的情形也成立. 从而结论成立.
+	\end{proof}
+	\begin{exercise}[P63, 推论3.3.6]
+		如果$(X_t:t\in I)$相对于流$(\h G_t)$具有以$(P_t)$为转移半群的$\h E$强马氏性, 那么对于任意的有限$(\h G_t)$停时$T$, $F\in b\h F^{T}$和$G\in b\h G_T$有
+		\[
+			\mbf P(GF|X_T)=\mbf P(G|X_T)\mbf P(F|X_T).
+		\]
+	\end{exercise}
+	\begin{proof}
+		\[
+			\begin{aligned}
+				\mbf P(GF|X_T)
+				&=\mbf P[\mbf P(GF|\h G_T)|X_T]=\mbf P[G\mbf P(F|\h G_T)|X_T]\\
+				&=\mbf P[G\mbf P(F|X_T)|X_T]=\mbf P(G|X_T)\mbf P(F|X_T).
+			\end{aligned}
+		\]
+	\end{proof}
+	\begin{exercise}[P63, 推论3.3.7]
+		如果$(X_t:t\in I)$相对于流$(\h G_t)$具有以$(P_t)$为转移半群的$\h E$强马氏性, 那么对于任何有限$(\h G_t)$停时$T$, 在$\mbf P(\ \cdot\ |X_T)$之下$(X_{t\land T}:t\in I)$和$(X_{T+t}:t\in I)$独立.
+	\end{exercise}
+	\begin{proof}
+		注意到$\h F^T=\sigma(\{X_{T+t}:t\in I\})$, $\h G_T=\sigma(\{X_{t\land T}:t\in I\})$??, 再由推论3.3.6立得结论.
+	\end{proof}
+	\begin{exercise}[P64]
+		考虑状态空间$(E,\h E)$上的次马氏转移半群$(P_t:t\in I)$. 取$\partial \notin E$, 令$\tilde{E}:=E\cup \{\partial\}$, 再定义此状态空间上的$\sigma$代数$\tilde{\h E}:=\sigma(\h E\cup \{\{\partial\}\})$. 对$t\in I$令
+		\[
+			\tilde P_t(y,A)=\left\{
+				\begin{aligned}
+					&P_t(y,A), &y\in E,A\in\h E,\\
+					&1-P_t(y,E),& y\in E,A = \{\partial\},\\
+					&\delta_\partial(A), &y=\partial,A\in\tilde{\h E}.
+				\end{aligned}
+			\right.
+		\]
+		证明: 上式确定了$(\tilde{E},\tilde{\h E})$上的一族概率核$(\tilde{P_t}:t\in I)$且它们构成马氏转移半群. 因此任何一个次马氏转移半群总可扩张为马氏转移半群.
+	\end{exercise}
+	\begin{proof}
+		(1) 证明$\tilde{P_t}(y,A)$是马氏核. 
+
+		首先, 令$\h C:=\h E\cup \{\{\partial\}\}$. 则$\h C$是半集代数. 由$\tilde{P_t}$定义知, 固定$y\in \tilde E$, 
+		\begin{itemize}
+			\item 若$y\in E$, 则$\tilde P_t(y,\tilde E)=\tilde P_t(y,A)+\tilde P_t(y,\{\partial\})=1$;
+			\item 若$y = \partial$, 则$\tilde P_t(y,\tilde E)=\delta_{\{\partial\}}(\tilde E)=1$.
+		\end{itemize}
+		又因为$\sigma$可加性显然成立, 故$\tilde P_t$是$(\tilde E,\h C)$上的概率测度. 由测度扩张定理知, 可唯一扩张为$\tilde{\h E}=\sigma(\h C)$上的概率, 仍记作$\tilde P_t$.
+
+		其次, 固定$A\in \tilde{\h E}$, $\tilde P_t(\ \cdot\ ,A)$关于$\tilde{\h E}$可测. 事实上,
+		\begin{itemize}
+			\item 若$A\in\h E$, 则$\tilde{P_t}(y,A)=1_E\cdot P_t(y,A)+1_{\partial}\cdot 0$, 关于$\tilde{\h E}$可测.
+			\item 若$A=\{\partial\}$, 则$\tilde{P_t}(y,A)=1_E(1-P_t(y,E))+1_{\partial}\cdot 1$, 关于$\tilde{\h E}$可测.
+		\end{itemize}
+		故对于任意的$A\in\h C$, 有$\tilde P_t(\ \cdot\ ,A)$关于$\tilde{\h E}$可测. 令$\Lambda:=\{A\in\tilde E:\tilde{P_t}(y,A)\text{关于$\tilde{\h E}$可测}\}$. 
+		
+		\circlenumber{1} $\tilde E\in\Lambda$. 因为$\tilde{P_t}(y,\tilde E)=\tilde P_t(y,E)+\tilde P_t(y,\{\partial\})$.
+
+		\circlenumber{2} 若$A\in \Lambda, B\in \Lambda$且$A\subset B$, 则$\tilde P_t(y,B-A)=\tilde P_t(y,B)=\tilde P_t(y,A)$关于$\tilde{\h E}$可测, 于是$B-A\in\Lambda$.
+
+		\circlenumber{3} 若$A_n\in\Lambda, A_n\uparrow A$, 则$\tilde P_t(y,A)=\lim_{n\rightarrow\infty}\tilde P_t(y,A_n)$关于$\tilde{\h E}$可测, 于是$A\in\Lambda$.
+		
+		{\noindent 从而$\Lambda$是$\lambda$系, 又因$\h C\subset\Lambda$, 由单调类定理知 $\tilde{\h E}=\sigma(\h C)\subset \Lambda$. }
+		
+		故$\tilde P_t(y,A)$是马氏核.
+
+		(2) 证明$\tilde P_t(y,A)$是马氏转移半群.
+
+		首先说明 $\tilde P_0$ 是恒等算子. 因为 $P_0$ 是恒等算子, 所以$\forall x\in E$, $P_0(x,E)=1$. 否则对$f\equiv 1$, $P_0f(x)=\int_E P_0(x,dy)=P_0(x,E)\neq 1$, 与 $f\equiv 1$ 矛盾. 对于任意的 $f\in b \tilde{\h E}$,
+		\begin{itemize}
+			\item 若$x\in E$, 则
+			\[\begin{aligned}
+				\tilde{P_0} f(x)&=\int_{\tilde E} f(y)\tilde{P_0}(x,dy)=\int_E f(y)P_0(x,dy)+\int_{\{\partial\}} f(y)\tilde{P_0}(x,dy)\\
+				&=f(x)+f(\partial)[1-P_0(x,E)]=f(x).
+			\end{aligned}
+			\]
+			\item 若$x=\partial$, 则
+			\[
+				\begin{aligned}
+					\tilde{P_0} f(\partial)&=\int_{\tilde E} f(y)\delta_{\partial}(dy)=f(\partial).
+				\end{aligned}
+			\]
+		\end{itemize}
+		故$\tilde P_t$是恒等算子. 
+
+		其次, $\tilde P_t$满足C-K方程. 
+		\begin{itemize}
+			\item 若$x\in E$. 对于任意的$s,t\in I$, 若$A\in\h E$, 
+			\[
+				\begin{aligned}
+					\tilde P_{s+t}(x,A)&=P_{s+t}(x,A)=\int_E P_s(x,dy)P_t(y,A)\\
+					&=\int_E \tilde{P_s}(x,dy)\tilde{P_t}(y,A)+\int_{\{\partial\}}\tilde{P_s}(x,dy)\tilde{P_t}(y,A)\\
+					&=\int_{\tilde E}\tilde{P_s}(x,dy)\tilde{P_t}(y,A).
+				\end{aligned}
+			\]
+			若$A=\{\partial\}$,
+			\[
+				\begin{aligned}
+					\int_{\tilde E} \tilde{P_s}(x,dy)\tilde{P_t}(y,\{\partial\})&=\int_{E} \tilde{P_s}(x,dy)[1-P_t(y,E)]+\int_{\{\partial\}} \tilde{P_s}(x,dy)\delta_\partial(\{\partial\})\\
+					&=\int_{E} P_s(x,dy)[1-P_t(y,E)]+\tilde P_s(x,\{\partial\})\\
+					&=P_s(x,E)-P_{s+t}(x,E)+1-P_s(x,E)\\
+					&=1-P_{s+t}(x,E)=\tilde P_{s+t}(x,\{\partial\}).
+				\end{aligned}
+			\]
+			令$\Lambda:=\{A\in\h E:\text{满足} \tilde P_{s+t}(x,A)=\int_{\tilde E}\tilde{P_s}(x,dy)\tilde{P_t}(y,A)\}$, 由上面的证明知, $\h C\subset \Lambda$. 容易证明, $\Lambda$为$\lambda$系, 由单调类定理知$\tilde{\h E}=\sigma(\h C)\subset\Lambda$. 那么, 对于任意的$x\in E,A\in\tilde{\h E}$, C-K方程成立.
+
+			\item 若$x=\partial$, 则对于任意的$s,t\in I$, 任意的$A\in\tilde{\h E}$,
+			\[
+				\begin{aligned}
+				\int_{\tilde{E}}\tilde{P_s}(\partial,dy)\tilde{P_t}(y,A)
+				=\int_{E}\tilde{P_s}(\partial,dy)\tilde{P_t}(y,A)+\int_{\{\partial\}}\tilde{P_s}(\partial,dy)\tilde{P_t}(y,A)\\
+				=0+\tilde{P_t}(\partial,A)=\delta_{\{\partial\}}(A)=\tilde P_{s+t} (\partial,A).
+				\end{aligned}
+			\]
+		\end{itemize}
+		综上, C-K方程成立, $\tilde P_t(y,A)$是马氏转移半群.
+	\end{proof}
+	\begin{exercise}[P65]
+		给定$(E,\h E)$上的有限测度$\mu$, 定义$(\Omega,\h G)$上的有限测度$\mbf P^\mu$如下:
+		\[
+			\mbf P^\mu(A)=\int_E \mbf P^x(A)\mu(dx),A\in\h G.
+		\]
+		如果$\mu$为概率测度, 则$\mbf P^\mu$也是概率测度. 此时在$\mbf P^\mu$之下$(X_t:t\in I)$相对于$(\h G_t,t\in I)$是以$\mu$为初始分布以$(P_t:t\in I)$为转移半群的马氏过程.
+	\end{exercise}
+	\begin{proof}
+		首先说明对于任何$F\in b\h G$, 有
+		\begin{equation}\label{eq:3-10-1}
+			\mbf P^\mu(F)=\int_E \mbf P^x(F)\mu(dx).
+		\end{equation}
+		事实上, 当$F=1_A,A\in\h G$时,
+		$
+			\mbf P^\mu(F)=\mbf P^\mu(A)=\int_E \mbf P^x(A)\mu(dx)=\int_E \mbf P^x(F)\mu(dx).
+		$
+		由积分的线性性知, 对$F$为简单函数时, 结论成立. 由单调收敛定理知, 结论对于非负可测函数成立. 最后, 由于一般可测函数可以表示为正部与负部的差, 从而结论成立.
+
+		其次, 因$(X_t:t\in I)$相对于$(\h G,\h G_t,\mbf P^x)$具有以$(P_t:t\in I)$为半群的马氏性, 故对于任意的$f\in b\h E$, $\mbf P^x[f(X_{s+t})|\h G_s]=P_t f(X_s)$. 从而对于任意的$A\in\h G_s$, $\mbf P^x[1_A f(x_{s+t})]=\mbf P^x[1_A P_tf(X_s)]$. 由(\ref{eq:3-10-1})知, 
+		\[
+			\begin{aligned}
+				\mbf P^\mu[1_A f(X_{s+t})]&=\int_E \mbf P^x[1_A f(X_{s+t})]\mu(dx)\\
+				&=\int_E \mbf P^x[1_A P_t f(X_s)]\mu(dx)\\
+				&=\mbf P^\mu[1_A P_t f(X_s)].
+			\end{aligned}
+		\]
+		由条件期望的定义, $\mbf P^\mu[f(X_{s+t})|\h G_s]=P_t f(X_s)$. 所以, $(X_t:t\in I)$相对于$(\h G_t,t\in I)$具有以$(P_t:t\in I)$为转移半群的马氏性. 
+
+		最后, 对于任意的$B\in\h E$, $\mbf P^\mu(X_0\in B)=\int_E \mbf P^x(X_0\in B)\mu (dx)=\int_B 1 \mu(dx)+\int_{B^c} 0 \mu(dx)=\mu(B)$. 故初始分布为$\mu$. 
+	\end{proof}
+	\begin{exercise}[P69, 定理3.4.5]
+		设$X$具有$\h E$强马氏性. 那么对任意的随机变量$F\in b\h F$和$(\h G_t)$停时$T$有$F\circ\theta_T 1_{\{T<\infty\}}\in b\h G$, 且对任意的初始分布$\mu$有
+		\begin{equation}\label{eq:3-11-1}
+			\mbf P^\mu(F\circ \theta_T 1_{\{T<\infty\}}|\h G_T)=\mbf P^{X_T}(F)1_{\{T<\infty\}}.
+		\end{equation}
+	\end{exercise}
+	\begin{proof}
+		令$\h C:=\{f_1(X_{t_1})\cdots f_n(X_{t_n}):n\in\kx N_+,1\leq t_1<\cdots<t_n\in I,f_i\in b\h E,\forall i\in\kx N_+\}$. 对于任意的$F=f_1(X_{t_1})\cdots f_n(X_{t_n})\in\h C$, $F\circ\theta_T1_{\{t<\infty\}}=f_1(X_{T+t_1})\cdots f_n(X_{T+t_n})1_{\{T<\infty\}}$. 由过程的强适应性有$f_i(X_{t+t_i})1_{\{T<\infty\}}\in b\h G_{t_i+T}\subset g\h G$, 故$F\circ\theta_T1_{\{t<\infty\}}\in b\h G$. 
+
+		往证, 对于任意的$F\in \h C$和初始分布$\mu$, (\ref{eq:3-11-1})成立. 用数学归纳法, 当$n=1$时, 由强马氏性有
+		\[
+			\mbf P^\mu[f(X_t)\circ\theta_T 1_{\{T<\infty\}}|\h G_T]=P_t f(X_T)1_{\{T<\infty\}}.
+		\]
+		由马氏系统的定义知
+		\[
+			\mbf P^{x}[f(X_t)]=
+			\mbf P^{x}\left\{\mbf P^{x}[f(X_t)|\h G_0]\right\}
+			=\mbf P^{x}[P_t f(X_0)]=P_tf(x),
+		\]
+		将上式的$x$替换为$X_T$, 再乘以$1_{\{T<\infty\}}$得到$\mbf P^{X_T}[f(X_t)]1_{\{T<\infty\}}=P_t f(X_T)1_{\{T<\infty\}}$. 于是对于$n=1$时成立.
+
+		假设对于某个$n\geq 1$成立, 那么
+		\[
+		\begin{aligned}
+			&\mbf P^\mu\left\{[f_1(X_{t_1})\cdots f_{n+1}(X_{T_{n+1}})]\circ\theta_T 1_{\{T<\infty\}}|\h G_T\right\}\\
+			=&\mbf P^\mu \left\{
+				f_1(X_{T+t_1})\cdots f_n(X_{T+t_n})\mbf P^\mu[f_{n+1}(X_{T+t_{n+1}})|\h G_{T+t_{n+1}}]1_{\{T<\infty\}}|\h G_T
+			\right\}\\
+			=&\mbf P^\mu\left\{
+				f_1(X_{T+t_1})\cdots f_n(X_{T+t_n})P_{t_{n+1}-t_n} f(X_{T+t_n})1_{\{T<\infty\}}|\h G_T
+			\right\}\\
+			=&\mbf P^{x}[f_1(X_{t_1})\cdots f_n(X_{t_n})P_{t_{n+1}-t_n}f(X_{T+t_n})]1_{\{T<\infty\}}\Big|_{x=X_T}\\
+			=&\mbf P^{x}\left\{
+				f_1(X_{t_1})\cdots f_n(X_{t_n}) \mbf P^{x}[f_{n+1}(X_{t_{n+1}})|\h G_{t_n}]\right\}1_{\{T<\infty\}}\Big|_{x=X_T}\\
+			=&\mbf P^{x}\left\{
+				\mbf P^{x}[f_1(X_{t_1})\cdots f_n(X_{t_n})f_{n+1}(X_{t_{n+1}})|\h G_{t_n}]
+			\right\}1_{\{T<\infty\}}\Big|_{x=X_T}\\
+			=&\mbf P^{X_T}[f_1(X_{t_1})\cdots f_n(X_{t_n})f_{n+1}(X_{t_{n+1}})] 1_{\{T<\infty\}}
+		\end{aligned}
+		\]
+		即得对任意的$F\in\h C,F\circ\theta_T 1_{\{T<\infty\}}\in b\h G$且(\ref{eq:3-11-1})成立.
+
+		令$L:=\{F\in g\h F:F\circ\theta_T 1_{\{T<\infty\}}\in b\h G \text{且满足(\ref{eq:3-11-1})}\}$, 则$\h C\subset L$. 显然$\h C$对乘积运算封闭, 由函数形式的单调类定理, $b\h F=\sigma(\h C)\subset L$. 
+	\end{proof}
+	\begin{exercise}[P71]
+		预解方程: 对任意的 $\alpha,\beta > 0$和 $f\in b\h E$, 有
+		\[
+			(\beta-\alpha)U^\alpha U^\beta f(x)=U^\alpha f(x) - U^\beta f(x),x\in E.
+		\]
+	\end{exercise}
+	\begin{proof}
+		\[
+			\begin{aligned}
+				P_t U^\beta f(x)&=\int_E P_t(x,dy)U^\beta f(y)
+				=\int_E P_t(x,dy)\int_0^\infty e^{-\beta s}P_s f(y)ds\\
+				&=\int_0^\infty e^{-\beta s}P_{s+t} f(x)ds
+				=\int_t^\infty e^{-\beta (u-t)}P_u f(x)du.
+			\end{aligned}
+		\]
+		\[
+			\begin{aligned}
+				U^\alpha U^\beta f(x)&=\int_0^\infty e^{-\alpha t}P_t U^\beta f(x)dt\\
+				&=\int_0^\infty e^{-\alpha t}\int_t^\infty e^{-\beta (u-t)}P_u f(x)du dt\\
+				&=\int_0^\infty e^{-\beta u}P_u f(x)\int_0^u e^{(\beta - \alpha)t}dtdu\\
+				&=\int_0^\infty e^{-\beta u}P_u f(x)(\beta-\alpha)^{-1}[e^{(\beta-\alpha)u}-1]du\\
+				&=(\beta-\alpha)^{-1}\int_0^\infty (e^{-\alpha u}-e^{-\beta u})P_u f(x)du\\
+				&=(\beta-\alpha)^{-1}[U^\alpha f(x)-U^\beta f(x)].
+			\end{aligned}
+		\]
+	\end{proof}
+	\newpage
+	\section{费勒过程}
+	\begin{exercise}[P78]
+		任何费勒半群$(P_t)_{t\geq 0}$都是博雷尔的.
+	\end{exercise}
+	\begin{proof}
+		给定任意的$f\in C_0(E)$. 对于任何$(s,x),(t,y)\in [0,\infty)\times E$, 我们有
+		\[
+			\begin{aligned}
+				|P_s f(x)-P_t f(y)|&\leq |P_s f(x)-P_s f(y)|+|P_s f(y)-P_t f(y)|\\
+				&\leq |P_s f(x)-P_s f(y)| + P_{s\land t}|P_{|t-s|f-f}|(y)\\
+				&\leq |P_s f(x)-P_s f(y)| + \|P_{|t-s|}f-f\|.
+			\end{aligned}
+		\]
+		当$(s,x)\rightarrow (t,y)$时, 上式右端趋于零. 故映射$(s,x)\mapsto P_s f(x)$关于$(s,t)$右连续, 从而是$\h B[0,\infty)\times\h E$可测的.
+
+		令$L:=\{f: (s,x)\mapsto P_s f(x) \text{ 关于$\h B[0,\infty)\times\h E$可测}\}$. 易证$L$包含所有常值函数, 对于线性运算封闭, 对于单调上升的有界极限封闭, 故$L$为$\h L$系. 又$C_0(E)\subset L$且对乘积运算封闭. 由单调类定理, $b\h E\subset b\sigma(C_0(E))\subset L$. 
+	\end{proof}
+	\begin{exercise}[P82]
+		$E$是可分局部紧度量空间, 则$E$必存在相对紧开集构成的可数基. 
+	\end{exercise}
+	\begin{proof}
+		因$E$可分, 故可设$\{x_n:n=1,2,\cdots\}$为$E$的可数稠子集. 对任何$n,k\geq 1$, 令$G_{n,k}:=B(x_n,\frac{1}{k})=\{y\in E:d(y,x_n)<\frac{1}{k}\}$. 则对任意的开集$A$, 一定存在$x_n\in A$. 定义$\rho = d(x_n,A)$, 存在$k$使得$\frac{1}{k}<\rho$, 则$G_{n,k}\subset A$. 从而$\{G_{n,k}\}$是$E$的可数基.
+	\end{proof}
+	\begin{exercise}[P85]
+		对每个$\alpha>0$和$f\in C_u(E)$, 有$U^\alpha f\in C_u(E)$.
+	\end{exercise}
+	\begin{proof}
+		对于任意的$f\in C_u(E)$, 令$f_0(x)=f(x)-f(\partial)\in C_0(E)$, 则由命题4.1.2证明过程知$U^\alpha f_0\in C_0(E)$. 从而$U^\alpha f=U^\alpha f_0+ U^\alpha f(\partial)=U^\alpha f_0+\alpha^{-1}f(\partial)\in C_u(E)$.
+	\end{proof}
+	\begin{exercise}[P78, 例3.2.1]
+		设$X_0$是实值随机变量. 对任何$t\geq 0$令$X_t=X_0+t$. 则$(X_t:t\geq 0)$是马氏过程, 其转移半群$(P_t)_{t\geq 0}$可定义为$P_t(x,dy)=\delta_{x+t}(dy)$. 这样, 对于任何$t\geq 0,x\in\kx R$及$f\in b\h B(\kx R)$有$P_tf(x)=f(x+t)$. 此外, $(P_t)$还是费勒半群, 并求其生成元.
+	\end{exercise}
+	\begin{proof}
+		根据定义知
+		\begin{equation}
+			\label{eq:4-5-1}
+			P_tf(x)=\int_{\kx R} f(y)P_t(x,dy)=\int_{\kx R} f(y)\delta_{x+t}(dy)=f(x+t).
+		\end{equation}
+		
+		(1) 验证$(P_t)$为转移半群. 
+		\begin{itemize}
+			\item 因为$P_t(x,\kx R)=\delta_{x+t}(\kx R)=1$, 故其为马氏核. 
+			\item 由(\ref{eq:4-5-1})知
+				$P_0 f(x)=f(x)$.
+			\item 满足C-K方程:
+			\[
+				\int_{\kx R}P_s(x,dy)P_t(y,B)
+				=\int_{\kx R}\delta_{x+s}(dy)\delta_{y+t}(B)
+				=\delta_{x+s+t}(B)=P_{s+t}(x,B).
+			\]
+		\end{itemize}
+
+		(2) 半群满足费勒性质.  
+		\begin{itemize}
+			\item 对于任意的$f\in C_0(\kx R)$, $P_t f(x)=f(x+t)$ 关于$x$连续, 且
+			\[
+				\lim_{x\rightarrow\infty}P_t f(x)=\lim_{x\rightarrow\infty}f(x+t)=\lim_{x\rightarrow\infty}f(x)=0.
+			\]
+			因$f$有界, 故$P_tf(x)$显然有界. 于是$P_tf(x)\in C_0(\kx R)$.
+			\item $\forall x\in\kx R,f\in C_0(\kx R), \lim_{t\rightarrow 0}P_t f(x)=\lim_{t\rightarrow 0}f(x+t)=f(x)$.
+		\end{itemize}
+
+		(3) 半群满足马氏性. $\forall s,t\in \kx R,f\in b\h G$,
+		\[
+			\mbf P[f(X_{s+t})|\h G_s]=\mbf P[f(X_s+t)|\h G_s]=f(X_s+t)=P_t f(X_s).
+		\]
+
+		(4) 求生成元. $\h D(A)=C_u^1(\kx R)\cap C_0(\kx R), Af(x)=f'(x)$, 其中$C_u^1(\kx R):=\{f:\text{$f$与$f'$是有界一致连续函数}\}$. 根据定义知$\h D(A):=\{f\in C_0(\kx R):\lim_{t\rightarrow 0}\frac{1}{t}(P_tf-f) \text{ 在上确界范数下存在}\}$.
+
+		一方面, $C_u^1(\kx R)\cap C_0(\kx R)\subset \h D(A)$. 对于任意的$f\in C_u^1(\kx R)$,
+			\[
+				\left\| \frac{P_t f-f}{t}-f'
+				 \right\|=\sup_{x\in\kx R}\left|
+				 \frac{f(x+t)-f(x)}{t}-f'(x)
+				 \right|,
+			\]
+			因为$f'(x)$一致连续, 故$f$一致可微, 即$\forall \varepsilon>0,\exists\delta$, 对$\forall x\in\kx R, t<\delta$, 有
+			$
+				\sup_{x\in\kx R}\left|
+				\frac{f(x+t)-f(x)}{t}-f'(x)
+				\right|<\varepsilon.
+			$
+			于是$\left\| \frac{P_t f-f}{t}-f'
+			\right\|\rightarrow 0,t\downarrow 0$.
+
+			另一方面, $\h D(A)\subset C_u^1(\kx R)\cap C_0(\kx R)$. 对任意的$f\in \h D(A)$, 因$\h D(A)\subset C_0(\kx R)$, 故$f\in C_0(\kx R)$. 由定理4.1.3知, $\lim_{t\rightarrow\infty}\|P_t f-f\|=0$, 于是$\lim_{t\rightarrow\infty}\sup_{x\in\kx R}|P_tf(x)-f(x)|=0$, 从而$\lim_{t\rightarrow\infty}\sup_{x\in\kx R}|f(x+t)-f(x)|=0$, 即$f$一致连续.  对于任意的$x\in\kx R$, 有
+			\[\begin{aligned}
+				|f'(x)-f'(x+t)|\leq 
+				\left|f'(x)-\frac{P_{t_0}f(x)-f(x)}{t_0}\right|
+				+\left|
+				\frac{P_{t_0}f(x)-f(x)}{t_0}-\frac{P_{t_0}f(x+t)-f(x+t)}{t_0}\right|\\
+				+\left|
+				\frac{P_{t_0}f(x+t)-f(x+t)}{t_0}-f'(x+t)
+				\right|.
+			\end{aligned}
+			\]
+			因为对于任意的$\varepsilon>0$, 存在$t_0$, 使得$\sup_{x\in\kx R}\left|f'(x)-\frac{P_{t_0}f(x)-f(x)}{t_0}\right|<\varepsilon/3$, 故可以选取适当的$t_0$使得上式右侧的第一项和第三项对于$x\in\kx R$一致地小于$\varepsilon/3$. 第二项等于
+			\[
+				\left|
+				\frac{f(x+t_0)-f(x+t_0+t)}{t_0}+\frac{f(x+t)-f(x)}{t_0}
+				\right|,
+			\]
+			由$f$的一致连续性知, 存在$\delta$, 使得对于任意的$t<\delta$, 都有上式对于$x\in\kx R$一致地小于$\varepsilon/3$. 因此$f'$是一致连续的. 此外, 对于任意的$f\in\h D(A)$, 有$\|\frac{P_t f-f}{t}-f'\|\rightarrow 0,t\downarrow 0$. 取$\varepsilon =1$, 存在$t_1$使得
+			\[
+				\left\|
+				\frac{P_{t_1}f-f}{t_1}-f'
+				\right\|\leq 1.
+			\]
+			因此$\|f'\|\leq 1+\left\|\frac{P_{t_1}f-f}{t_1}\right\|\leq 1+\frac{2\|f\|}{t_1}$. 因$f$有界, 故$f'$也有界. 至此, $f\in C_u^1(\kx R)\cap C_0(\kx R)$.
+	\end{proof}
+	\begin{exercise}[P78, 例3.2.2]
+		设$X_0$是实值随机变量. 对任意$t\geq 0$令$X_t=X_0+\sgn(X_0)t$,其中$\sgn$为符号函数. 则$(X_t:t\geq 0)$为马氏过程, 其转移半群$(P_t)_{t\geq 0}$可定义为$P_t(x,dy)=\delta_{x+\sgn(x)t}(dy)$. 对于任何$t\geq 0,x\in\kx R$及$f\in b\h B(\kx R)$有$P_t f(x)=f(x+\sgn(x)t)$.
+	\end{exercise}
+	\begin{proof}
+		根据定义知, 
+		\begin{equation}\label{eq:4-6-1}
+			P_t f(x)=\int_{\kx R}P_t(x,dy)f(y)=\int_{\kx R}\delta_{x+\sgn(x)t} f(x)=f(x+\sgn(x)t).
+		\end{equation}
+
+		(1) 验证$(P_t)$是转移半群.
+		\begin{itemize}
+			\item $(P_t)$是马氏核.
+			\item 由(\ref{eq:4-6-1})知, $P_0f(x)=f(x)$.
+			\item 满足C-K方程: 对任意的$x\in \kx R$,
+			\[
+				P_s P_t f(x)=\left\{
+					\begin{aligned}
+					&f(x+t+s),&\ \ x>0\\
+					&f(x-t-s),&\ \ x<0\\
+					&0,&\ \ x=0			
+					\end{aligned}
+				\right.\ \ \ \ =P_{s+t}(x).
+			\]
+		\end{itemize}
+
+		(2) 半群不具有费勒性质. 因存在$f\in C_0(\kx R)$满足$f(x)\neq f(0),\forall x\neq 0$. $P_t f(x) =f(x+t)\rightarrow f(t),x\downarrow 0$. 而$f(t)\neq f(0)=P_t f(0), \forall t\neq 0$. 所以$P_t f(x)\nrightarrow P_t f(0),x\downarrow 0, \forall t\neq 0$. 故$P_t f\notin C_0(\kx R),\forall t\neq 0$, 因此不是费勒半群. 
+
+		(3) $(X_t)$具有马氏性. 对于任意的$s,t\in\kx R,f\in b\h B(\kx R)$,
+		\[
+			\begin{aligned}
+			\mbf P[f(X_{t+s})|\h G_s]&=\mbf P[f(X_s + t\cdot\sgn(X_0))|\h G_s]\\
+			&=f(X_s + t\cdot\sgn(X_0))\\
+			&=f(X_s + t\cdot\sgn(X_s))\\
+			&=P_t f(X_s)
+			\end{aligned}
+		\]
+		因此, 具有以$(P_t:t\geq 0)$为转移半群的马氏性. 
+
+		(4) $(X_t)$具有强马氏性. 对于任意的$t\in \kx R, f\in b\h B(\kx R)$和$(\h G_t)$停时$T$, 
+		\[\begin{aligned}
+			\mbf P[P_t f(X_T)1_{\{T<\infty\}}]
+			&=\mbf P[f(X_T+t\cdot\sgn(X_T))1_{\{T<\infty\}}]\\
+			&=\mbf P[f(X_0+T\cdot \sgn(X_0)+t\cdot\sgn(X_0))1_{\{T<\infty\}}]\\
+			&=\mbf P[f(X_0+(T+t)\sgn(X_0))1_{\{T<\infty\}}]\\
+			&=\mbf P[f(X_{T+t})1_{\{T<\infty\}}].
+		\end{aligned}
+		\]
+		因此具有以$(P_t:t\geq 0)$为转移半群的强马氏性. 
+	\end{proof}
+	\begin{exercise}[P78, 例4.1.1]
+		固定常数$\alpha > 0$, 对于$f\in b\h B(\kx R)$定义$P_0f(x)=f(x)$和
+		\[
+			P_tf(x)=e^{-\alpha t}\sum_{k=0}^\infty \frac{\alpha^k t^k}{k!}f(x+k),t\geq 0,x\in\kx R.
+		\]
+		则$(P_t)_{t\geq 0}$为$\kx R$上的费勒转移半群, 并求其生成元. 
+	\end{exercise}
+	\begin{proof}
+		(1) 首先证明$(P_t)_{t\geq 0}$是转移半群.
+		\begin{itemize}
+			\item 由定义知, $P_0f(x)=f(x)$.
+			\item 满足 C-K 方程: 对任意的$f\in b\h B(\kx R)$,
+			\[
+				\begin{aligned}
+				P_sP_t f(x)&=e^{-\alpha s}\sum_{k=0}^\infty\frac{\alpha^k s^k}{k!}e^{-\alpha t}\sum_{\ell=1}^\infty\frac{\alpha^\ell t^\ell}{\ell !}f(x+ \ell + k)\\
+				&=e^{-(s+t)}\sum_{k=0}^\infty\sum_{\ell = 0}^\infty \frac{\alpha^k s^k}{k!}\frac{\alpha^\ell t^\ell}{\ell !}f(x+\ell + k)\\
+				\text{(由Fubini定理)} &=e^{-(s+t)}\sum_{k=0}^\infty \sum_{\ell = 0}^k\frac{\alpha^k s^{k-\ell}t^\ell}{(k-\ell)!\ell !}f(x+k)\\
+				&= e^{-\alpha(s+t)}\sum_{k=0}^\infty \frac{1}{k!}\alpha^k (s+t)^k f(x+k)\\
+				&= P_{s+t} f(x).
+				\end{aligned}
+			\]
+		\end{itemize}
+
+		(2) 半群具有费勒性质. 
+		\begin{itemize}
+			\item 对于任意的$f\in C_0(\kx R)$, $\forall x\in\kx R,\forall t\geq 0$, 因$f$有界, 故$\sum_{k=0}^\infty e^{-\alpha t}\frac{\alpha^k t^k}{k!}f(x)\leq \|f\|<\infty, \forall x\in\kx R$. 于是由Lebesgue控制收敛定理及$f$的连续性知
+			\[
+				\lim_{s\rightarrow 0}P_t f(x+s)=\lim_{s\rightarrow 0}e^{-\alpha t}\sum_{k=0}^\infty\frac{\alpha^k t^k}{k!}f(x+s)=e^{-\alpha t}\sum_{k=0}^\infty  \frac{\alpha^k t^k}{k!}\lim_{s\rightarrow 0} f(x+s)=P_t f(x).
+			\]
+			从而$P_t f$连续. 另外类似地由Lebesgue控制收敛定理,
+			\[
+				\lim_{x\rightarrow\infty}P_t f(x)=\lim_{x\rightarrow\infty}e^{-\alpha t}\sum_{k=0}^\infty \frac{\alpha^k t^k}{k!}f(x)=e^{-\alpha t}\sum_{k=0}^\infty \frac{\alpha^k t^k}{k!}\lim_{x\rightarrow\infty}f(x) = 0.
+			\]
+			于是$P_t f\in C_0(E)$.
+			\item 对于任意的$f\in C_0(E)$, 由Lebesgue控制收敛定理知
+			\[
+				\lim_{t\rightarrow 0}P_t f(x) = \lim_{t\rightarrow 0} e^{-\alpha t}\sum_{k=0}^\infty \frac{\alpha^k t^k}{k!} f(x) = \sum_{k=0}^\infty \lim_{t\rightarrow 0}e^{-\alpha t}\frac{\alpha^k t^k}{k!}f(x)=f(x).
+			\]
+		\end{itemize}
+
+		(3) 求生成元. 见书中定理5.2.1.
+	\end{proof}
+	\begin{exercise}[P78, 例4.1.2]
+		对于$f\in b\h B(\kx R)$定义$P_0 f(x)=f(x)$和
+		\[
+			P_t f(x)=\frac{1}{\sqrt{2\pi t}}\int_{\kx R} f(y)e^{-(y-x)^2/2t}dy, t\geq 0,x\in\kx R.
+		\]
+		则$(P_t)_{t\geq 0}$是$\kx R$上的费勒转移半群, 并求其生成元. 
+	\end{exercise}
+	\begin{proof}
+		(1) 验证$(P_t)_{t\geq 0}$为转移半群. 
+		\begin{itemize}
+			\item 对于任意的$t\in\kx R,P_t$为马氏核. 首先对于任意的$A\in\h B$,
+			\[
+				P_t(x,A)=P_t 1_A(x) = \frac{1}{\sqrt{2\pi t}}\int_{\kx R} 1_A (y) e^{-(y-x)^2/2t}dy
+			\]
+			是可测函数. 其次对任意的$x\in\kx R$, $A_1,A_2,\cdots\in\h B$两两不交,
+			\[\begin{aligned}
+				P_t(x,\cup_{i=1}^\infty A_i)& =\frac{1}{\sqrt{2\pi t}}\int_{\kx R} 1_{\cup_{i=1}^\infty A_i}(y) e^{-(y-x)^2/2t}dy\\
+				&=\sum_{i=1}^\infty \frac{1}{\sqrt{2\pi t}}\int_{\kx R} 1_{A_i}(y) e^{-(y-x)^2/2t}dy\\
+				&= \sum_{i=1}^\infty P_t(x,A_i).
+			\end{aligned}
+			\]
+			所以$P(x,\cdot)$是测度. 最后, 对于任意的$x\in\kx R$, $P(x,\kx R)=\frac{1}{\sqrt{2\pi t}}\int_{\kx R} e^{-(y-x)^2/2t}dy=1$.
+			\item 由定义知 $P_0 f(x)=f(x)$.
+			\item 满足C-K方程. 对于任意的$f\in\h B(\kx R)$,
+			\[
+			\begin{aligned}
+				P_t P_s f(x) &= \frac{1}{\sqrt{2\pi t}}\int_{\kx R} \frac{1}{\sqrt{2\pi s}}\int_{\kx R} f(y) e^{-(y-z)^2/2s} dy e^{-(z-x)^2/2t} dz\\
+				&= \frac{1}{\sqrt{2\pi t}}\frac{1}{\sqrt{2\pi s}}\int_{\kx R} f(y)\int_{\kx R}e^{-(y-z)^2/2s}e^{-(z-x)^2/2t} dzdy\\
+				&= \frac{1}{\sqrt{2\pi t}}\frac{1}{\sqrt{2\pi s}}\int_{\kx R} f(y)\int_{\kx R}
+				\exp\left\{-\frac{t(y^2+z^2-2yz)+s(z^2+x^2-2zx)}{2st}\right\} dzdy\\
+				&= \frac{1}{\sqrt{2\pi t}}\frac{1}{\sqrt{2\pi s}}\int_{\kx R} f(y) dy\int_{\kx R}
+				\exp\left\{-\frac{(t+s)(z-\frac{2sx+2ty}{t+s})^2}{2st}-\frac{(x-y)^2}{2(t+s)}\right\} dz\\
+				&=\frac{1}{\sqrt{2\pi(t+s)}}\int_{\kx R} f(y) \exp \left\{-\frac{(x-y)^2}{2(t+s)^2}\right\} dy\int_{\kx R} \frac{\sqrt{s+t}}{\sqrt{2\pi st}} \exp\left\{-\frac{(z-\frac{2sx+2ty}{t+s})^2}{2\frac{st}{t+s}}\right\} dz\\
+				&=\frac{1}{\sqrt{2\pi(t+s)}}\int_{\kx R} f(y) \exp \left\{-\frac{(x-y)^2}{2(t+s)^2}\right\} dy\\
+				&=P_{s+t}f(x).
+			\end{aligned}
+			\]
+		\end{itemize}
+		
+		(2) 半群满足费勒性质.
+		\[
+			P_t f(x) =\frac{1}{\sqrt{2\pi t}} \int_{\kx R} f(y) e^{-\frac{(y-x)^2}{2t}}dy
+			\xlongequal{\frac{y-x}{\sqrt{t}}=z}\frac{1}{\sqrt{2\pi}} \int_{\kx R} f(x+\sqrt{t}z) e^{-z^2/2} dz.
+		\]
+		\begin{itemize}
+			\item 对任意的$f\in C_0(\kx R)$, 若$t=0$, 则$P_0 f=f\in C_0(\kx R)$. 若$t>0$, 因$f$有界, 故 $f(x+\sqrt{t}z)e^{-z^2/2}\leq \|f\| e^{- z^2/2}$, 且$\int_{\kx R}\|f\| e^{-z^2/2}dz = \|f\|\sqrt{2\pi}<\infty$. 从而由Lebesgue控制收敛定理及$f$的连续性知
+			\[
+				\lim_{x\rightarrow x_0}P_t f(x) =\frac{1}{\sqrt{2\pi}}\int_{\kx R}\lim_{x\rightarrow x_0} f(x+\sqrt{t}z) e^{-z^2/2} dz = \frac{1}{\sqrt{2\pi}}\int_{\kx R}f(x_0+\sqrt{t}z) e^{-z^2/2} dz=P_t f(x_0).
+			\] 类似地, $\lim_{t\rightarrow \infty} P_t f(x)= 0$. $P_t f$ 有界性显然. 从而$P_t f\in C_0(\kx R)$.
+			\item 同样由lebesgue 控制收敛定理, \[
+				\lim_{t\rightarrow 0+}P_t f(x) =\frac{1}{\sqrt{2\pi}}\int_{\kx R}\lim_{t\rightarrow 0+} f(x+\sqrt{t}z) e^{-z^2/2} dz = \frac{1}{\sqrt{2\pi}}\int_{\kx R}f(x) e^{-z^2/2} dz= f(x).
+			\]
+		\end{itemize}
+
+		(3) 求生成元. 对于任意的$f\in C_u^2(\kx R):=\{f\in C_u(\kx R):f''(x) \text{ 有界且一致连续}\}$.
+		\[
+			f(x+\sqrt{t}z) = f(x) + \frac{f'(x)}{1!} \sqrt{t}z + \frac{f''(x+\theta\sqrt{t}z)}{2!}(\sqrt{t}z)^2.
+		\]
+		于是, 
+		\[
+			\begin{aligned}
+			\frac{P_t f-f}{t} &= \int_{\kx R} \frac{1}{\sqrt{2\pi}} e^{- \frac{z^2}{2}} \frac{f(x+\sqrt{t}z)-f(x)}{t} dz\\
+			&= \int_{\kx R} \frac{1}{\sqrt{2\pi}} e^{- \frac{z^2}{2}}
+			\left[
+				\frac{f'(x)z}{\sqrt{t}}+\frac{f''(x+\theta\sqrt{t}z)}{2}z^2
+			\right]dz\\
+			&= \int_{\kx R} \frac{1}{\sqrt{2\pi}} e^{- \frac{z^2}{2}}
+				\frac{f''(x+\theta\sqrt{t}z)}{2}z^2 dz.
+		\end{aligned}
+		\]
+		先求形式上的极限. 注意到$\int_{\kx R} e^{- z^2/2} z^2 dz = \sqrt{2\pi}$, 再由Lebesgue控制收敛定理知,
+		\[
+		\begin{aligned}
+			\lim_{t\rightarrow 0+}\frac{P_t f-f}{t} &= \lim_{t\rightarrow 0+} \int_{\kx R} \frac{1}{\sqrt{2\pi}} e^{- \frac{z^2}{2}} \frac{z^2}{2} [f''(x+\theta\sqrt{t}z)-f''(x)]dz + \lim_{t\rightarrow 0+} \int_{\kx R} \frac{1}{\sqrt{2\pi}} e^{- \frac{z^2}{2}} \frac{z^2}{2} f''(x)dz\\
+			&=\int_{\kx R} \frac{1}{\sqrt{2\pi}} e^{- \frac{z^2}{2}} \frac{z^2}{2} \left[\lim_{t\rightarrow 0+} f''(x+\theta\sqrt{t}z)-f''(x)\right]dz + \frac{1}{2}f''(x) \frac{1}{\sqrt{2\pi}}\int_{\kx R} e^{- z^2/2} z^2 dz\\
+			&= \frac{1}{2}f''(x).
+		\end{aligned}
+		\]
+
+		下面说明上述极限在上确界范数意义下收敛, 存在$C$使得
+		\[\begin{aligned}
+			&\left|\frac{P_t f}{t} - \frac{1}{2}f''(x)\right|\\
+			=&\left|
+			\int_{\kx R} \frac{1}{\sqrt{2\pi}} e^{- \frac{z^2}{2}} \frac{f(x+\sqrt{t}z)-f(x)}{t} dz-\int_{\kx R} \frac{1}{\sqrt{2\pi}} e^{- \frac{z^2}{2}} \frac{z^2}{2} f''(x)dz
+			\right|\\
+			\leq & \sqrt{t} C\rightarrow 0, t\rightarrow 0.
+		\end{aligned}
+		\]
+	\end{proof}
+	\newpage
+	\section{莱维过程}
+	\begin{exercise}[P97]
+		假若$X=(X_t:t\geq 0)$是$\kx R^d$上相对于流$(\h G_t)_{t\geq 0}$的平稳独立增量过程, 记$X_t-X_0$的分布为$\mu_t$, 则$(\mu_t)_{t\geq 0}$构成一个卷积半群.
+	\end{exercise}
+	\begin{exercise}[P97]
+		给定$\kx R^d$上的卷积半群$(\mu_t)_{t\geq 0}$, 对于任何$t\geq 0$我们可以定义
+		\[
+			P_t(x,B):=\mu(B-x),x\in\kx R^d,B\in\h B(\kx R^d).
+		\]
+		证明$P_t(x,dy)$为$\kx R^d$上的核.
+	\end{exercise}
+	\begin{exercise}
+		$(N_t:t\geq 0)$为普瓦松过程, 证明$\{N_t-\lambda t\}$是鞅.
+   \end{exercise}
+	\begin{exercise}[P105]
+		证明布朗运动$(B_t:t\geq 0)$是鞅. 且$\{B_t^2-t\}$也是鞅. 
+	\end{exercise}
+	\begin{exercise}[P109, 推论5.3.6]
+	\end{exercise}
+	
+	\section{补充习题}
+	\begin{exercise}
+		设$\{N_t:t\geq 0\}$是参数为$\alpha$的普瓦松过程, $\{\xi_n:n\geq 1\}$是一列独立同分布的随机变量, 且$\{N_t\}$与$\{\xi_n\}$独立. 令$X_t:=\sum_{i=1}^{N_t}Y_i,t\geq 0$. 称$\{X_t\}$为复合普瓦松过程, 其转移半群为
+		\[
+			P_t f(x)=e^{-\alpha t}\sum_{k=0}^\infty \frac{(\alpha t)^k}{k!}\mbf E[f(x+\sum_{i=1}^k\xi_i)].
+		\]
+	\end{exercise}
+	\begin{proof}
+		(1) 验证$(P_t)$为转移半群.
+		\begin{itemize}
+			\item 对于任意的$t\geq 0$, $P_t$为马氏核. (概率为1, 可测性, 是测度.)
+			\item 由定义知$P_0 f(x) = f(x)$.
+			\item 满足C-K方程: 对于任意的$f\in b\h B(\kx R), s,t\geq 0$, 有
+			\[
+				\begin{aligned}
+				P_sP_t f(x) &= e^{-\alpha s}\sum_{k=0}^\infty \frac{(\alpha s)^k}{k!}\mbf E\left\{e^{-\alpha t}\sum_{\ell = 0}^\infty \frac{(\alpha t)^\ell}{\ell !}\mbf E\left[f(x+\sum_{i=1}^k\xi_i)\right]\right\}\\
+				&= e^{-\alpha s}\sum_{k=0}^\infty \frac{(\alpha s)^k}{k!}e^{-\alpha t}\sum_{\ell = 0}^\infty \frac{(\alpha t)^\ell}{\ell !}\mbf E\left[f(x+\sum_{i=1}^k\xi_i)\right]\\
+				\text{(由Fubini定理)}&= e^{-\alpha (s+t)}\sum_{k=0}^\infty \sum_{\ell = 0}^k \frac{\alpha^k (s+t)^k}{k!}\mbf E\left[f(x+\sum_{i=1}^k\xi_i)\right]\\
+				&= P_{s+t} f(x).
+				\end{aligned}
+			\]
+		\end{itemize}
+
+		(2) 半群满足费勒性质. 
+		\begin{itemize}
+			\item 对于任意的$f\in C_0(\kx R),\forall t\geq 0$, 
+			\[
+				e^{-\alpha t}\sum_{k=0}^\infty \frac{(\alpha t)^k}{k!}\mbf E\left[f(x+\sum_{i=1}^k\xi_i)\right]
+				\leq e^{-\alpha t}\sum_{k=0}^\infty \frac{(\alpha t)^k}{k!}\|f\| = \|f\| < \infty.
+			\]
+			故由Lebesgue控制收敛定理及$f$的连续性知$\lim_{x\rightarrow x_0}P_t f(x)=P_t f(x_0)$, 即$P_t f$连续. $P_t f$的有界性显然成立. 另外, $\lim_{x\rightarrow\infty}P_t f(x)=0$. 于是$P_t f\in C_0(\kx R)$.
+
+			\item 类似地, 由Lebesgue控制收敛定理知$\lim_{t\rightarrow 0+}P_t f(x)=f(x)$.
+		\end{itemize}
+
+		(3) 求生成元. 首先求极限,
+		\[
+		\begin{aligned}
+			&\lim_{t\rightarrow 0+}\frac{P_t f(x)-f(x)}{t}\\
+			=& \lim_{t\rightarrow 0+} \frac{e^{-\alpha t}\sum_{k=0}^\infty \frac{(\alpha t)^k}{k!}\mbf E\left[f(x+\sum_{i=1}^k\xi_i)\right]-e^{-\alpha t}\sum_{k=0}^\infty\frac{(\alpha t)^k}{k!}f(x)}{t}\\
+			=& \lim_{t\rightarrow 0+}\frac{1}{t}\left\{
+				e^{-\alpha t} \sum_{k=0}^\infty\frac{(\alpha t)^k}{k!}\mbf E\left[f(x+\sum_{i=1}^k\xi_i)-f(x)\right]
+			\right\}\\
+			=& \lim_{t\rightarrow 0+}\frac{1}{t} \left\{
+				e^{-\alpha t}(\alpha t)\mbf E[f(x+\xi_1)-f(x)]+e^{-\alpha t} \sum_{k=2}^\infty\frac{(\alpha t)^k}{k!}\mbf E\left[f(x+\sum_{i=1}^k\xi_i)-f(x)\right]
+			\right\}\\
+			= & \alpha \mbf E[f(x+\xi_1)-f(x)].
+		\end{aligned}
+		\]
+
+		下证$A f(x)=\alpha\mbf E[f(x+\xi_1)-f(x)]$. 对于任意的$f\in C_0(\kx R)$, 当$t<1$时, 存在$C$满足
+		\[
+			\begin{aligned}
+				&\left|
+				\frac{P_t f(x)-f(x)}{t}-\alpha\mbf E[f(x+\xi_1)-f(x)]
+				\right|\\
+				=& \left|
+				\alpha (e^{-\alpha t}-1)\mbf E[f(x+\xi_1)-f(x)]+\alpha e^{-\alpha t}\sum_{k=2}^\infty \frac{(\alpha t)^{k-1}}{k!}\mbf E\left[f(x+\sum_{i=1}^k\xi_i)-f(x)\right]
+				\right|\\
+				\leq & \alpha \sum_{k=1}^\infty \frac{(\alpha t)^k}{k!}\mbf E\left| f(x+\xi_1)-f(x)\right|+\alpha e^{-\alpha t}\sum_{k=2}^\infty \frac{(\alpha t)^{k-1}}{k!} \mbf E \left| f(x+\sum_{i=1}^k\xi_i)-f(x)\right|\\
+				\leq & C\|f\|t.
+			\end{aligned}
+		\]
+	\end{proof}
+	\begin{exercise}
+		请举例说明(1)马氏过程不一定是鞅. (2)鞅不一定是马氏过程.
+	\end{exercise}
+\end{document}
